@@ -1,0 +1,53 @@
+# cluster.yaml
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-auto-cluster
+  region: us-east-1
+  version: "1.30"
+
+# Enable auto mode
+autoModeConfig:
+  enabled: true
+  # Node pools to create
+  nodePools: ["general-purpose", "system"]
+  nodeGroups:
+    general-purpose:
+      instanceType: t3.medium
+      minSize: 1
+      maxSize: 5
+      labels:
+        role: general-worker
+      taints: []
+
+    system:
+      instanceType: t3.medium
+      minSize: 2
+      maxSize: 4
+      labels:
+        role: system
+      taints: []
+
+# Networking
+vpc:
+  subnets:
+    private:
+      us-east-1a:
+        id: subnet-xxxxx
+      us-east-1b:
+        id: subnet-xxxxx
+
+# IAM
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: eks-auto-sa
+        namespace: kube-system
+      attachPolicyARNs:
+        - "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+
+Create cluster:
+```bash
+eksctl create cluster -f cluster.yaml

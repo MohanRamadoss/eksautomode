@@ -1,0 +1,15 @@
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: private-compute
+spec:
+  amiFamily: AL2
+  role: eks-node-group-role  # Reference to IAM role
+  securityGroupSelector:
+    eks-cluster: "true"
+  subnetSelector:
+    kubernetes.io/role/internal-elb: "1"
+  taints: []
+  instanceType: t3.medium
+  ephemeralStorage:
+    size: "160Gi"

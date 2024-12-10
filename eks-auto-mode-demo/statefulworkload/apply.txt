@@ -1,0 +1,33 @@
+kubectl apply -f storage-class.yaml
+
+kubectl apply -f pvc.yaml
+
+kubectl apply -f deployment.yaml
+
+
+
+# Validate YAML syntax
+kubectl apply --dry-run=client -f deployment.yaml
+
+# Check storage class exists
+kubectl get sc auto-ebs-sc
+
+# Verify PVC is bound
+kubectl get pvc auto-ebs-claim
+
+kubectl get pods -l app=inflate-stateful
+
+
+kubectl get pvc auto-ebs-claim
+
+
+# Get the PV name
+PV_NAME=$(kubectl get pvc auto-ebs-claim -o jsonpath='{.spec.volumeName}')
+# Describe the EBS volume
+aws ec2 describe-volumes \
+  --filters Name=tag:CSIVolumeName,Values=${PV_NAME}
+
+
+  kubectl exec "$(kubectl get pods -l app=inflate-stateful \
+  -o=jsonpath='{.items[0].metadata.name}')" -- \
+  cat /data/out.txt

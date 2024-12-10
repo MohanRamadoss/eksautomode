@@ -1,0 +1,12 @@
+kubectl get nodepools
+
+kubectl get nodes
+
+kubectl apply -f inflate.yaml
+
+kubectl get events -w --sort-by '.lastTimestamp'
+
+kubectl get nodes
+
+kubectl delete -f deployment.yaml
+

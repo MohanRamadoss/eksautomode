@@ -1,0 +1,46 @@
+# Create cluster with Auto Mode
+eksctl create cluster -f cluster.yaml
+
+# Wait for cluster creation to complete
+
+# Create cluster with Auto Mode
+eksctl create cluster -f cluster.yaml
+
+# Wait for cluster creation to complete
+
+# Create node group separately
+eksctl create nodegroup \
+  --cluster eks-auto-starter \
+  --name general-purpose \
+  --node-type t3.medium \
+  --nodes 2 \
+  --nodes-min 1 \
+  --nodes-max 3 \
+  --region us-east-1
+
+
+
+
+  # Basic EKS Auto Mode cluster creation
+eksctl create cluster \
+  --name eks-auto-cluster \
+  --region us-east-1 \
+  --version 1.30 \
+  --auto-mode \
+  --vpc-private-subnets subnet-xxxxxx,subnet-xxxxxx \
+  --vpc-public-subnets subnet-xxxxxx,subnet-xxxxxx \
+  --with-oidc \
+  --zones us-east-1a,us-east-1b
+
+# Alternative with more options
+eksctl create cluster \
+  --name eks-auto-cluster \
+  --region us-east-1 \
+  --version 1.30 \
+  --auto-mode \
+  --vpc-cidr 192.168.0.0/16 \
+  --with-oidc \
+  --zones us-east-1a,us-east-1b \
+  --tags environment=dev \
+  --auto-kubeconfig \
+  --asg-access

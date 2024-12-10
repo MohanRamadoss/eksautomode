@@ -1,0 +1,10 @@
+terraform init
+terraform plan
+terraform apply
+export CLUSTER_NAME=eks-auto-mode
+export AWS_REGION="us-east-1"
+aws eks update-kubeconfig --name "${CLUSTER_NAME}"
+kubectl apply -f nodepool.yaml 
+
+kubectl get nodepools
+

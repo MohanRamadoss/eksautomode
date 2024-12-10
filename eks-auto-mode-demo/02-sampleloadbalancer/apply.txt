@@ -1,0 +1,18 @@
+kubectl create -f 01-namespace.yaml 
+kubectl create -f 02-deployment.yaml 
+kubectl create -f 03-service.yaml 
+kubectl create -f 04-ingressclass.yaml 
+kubectl create -f 05-ingress.yaml 
+
+
+
+kubectl get events -w --sort-by '.lastTimestamp'
+
+kubectl apply -f 02-deployment.yaml 
+
+
+kubectl delete  -f 01-namespace.yaml 
+kubectl delete -f 02-deployment.yaml 
+kubectl delete -f 03-service.yaml 
+kubectl delete -f 04-ingressclass.yaml 
+kubectl delete -f 05-ingress.yaml 
